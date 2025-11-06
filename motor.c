@@ -1,7 +1,6 @@
+#include "stm32f10x.h"                  // Device header
+#include "encoder.h"
 #include "motor.h"
-#include "stm32f10x_gpio.h"
-#include "stm32f10x_tim.h"
-#include "stm32f10x_rcc.h"
 
 Motor_TypeDef motor1, motor2;
 PID_TypeDef speed_pid1, speed_pid2, position_pid;
@@ -19,7 +18,7 @@ void Motor_Init(void)
     
     // 初始化电机1控制引脚（B12、B13）
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_13;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_Pp;  // 推挽输出
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  // 推挽输出
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
     
