@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "OLED_Data.h"
+#include "sensor.h"
 
 /*------------------- 全局变量定义 -------------------*/
 volatile uint8_t Current_Mode = 0; // 0: 速度环, 1: 位置环 (添加volatile)
@@ -47,7 +48,7 @@ void Send_Data_To_PC(void);
   */
 int main(void)
 {
-    // 模块初始化
+    /*// 模块初始化
     OLED_Init();
     Key_Init();
     Timer_Init();
@@ -99,7 +100,35 @@ int main(void)
         Send_Data_To_PC();
         
         Delay_ms(10);
-    }
+    }*/
+	OLED_Init();
+	OLED_Clear();
+	SensorInit();
+	while(1)
+	{
+		OLED_ShowString(1,1,"OLED OK");
+		if(GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13))
+		{
+			OLED_Clear();
+			OLED_ShowString(1,1,"C13 ok high");
+		}
+		else if(!GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_14))
+		{
+			OLED_Clear();
+			OLED_ShowString(1,1,"C14 ok low");
+		}
+		else if(GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_15))
+		{
+			OLED_Clear();
+			OLED_ShowString(1,1,"C15 ok high");
+		}
+		else if(!GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_12))
+		{
+			OLED_Clear();
+			OLED_ShowString(1,1,"B12 ok low");
+		}
+		Delay_ms(1000);
+	}
 }
 
 /**
