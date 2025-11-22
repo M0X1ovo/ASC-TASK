@@ -11,6 +11,7 @@
 #include <string.h>
 #include "OLED_Data.h"
 #include "sensor.h"
+#include "PWM.h"
 
 /*------------------- 全局变量定义 -------------------*/
 volatile uint8_t Current_Mode = 0; // 0: 速度环, 1: 位置环 (添加volatile)
@@ -100,13 +101,22 @@ int main(void)
         Send_Data_To_PC();
         
         Delay_ms(10);
-    }*/
+    }
 	OLED_Init();
 	OLED_Clear();
-	SensorInit();
+	SensorInit();*/
 	while(1)
 	{
-		OLED_ShowString(1,1,"OLED OK");
+		int state=Key_GetNum();
+		if(state)
+		{
+			TIM_Cmd(TIM2, ENABLE);
+		}
+		else
+		{
+			PWM_Stop();
+		}
+		/*OLED_ShowString(1,1,"OLED OK");
 		if(GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13))
 		{
 			OLED_Clear();
@@ -128,13 +138,13 @@ int main(void)
 			OLED_ShowString(1,1,"B12 ok low");
 		}
 		Delay_ms(1000);
+	}*/
 	}
 }
-
 /**
   * @brief  【新的】我们自己的串口中断服务函数，覆盖Serial.c里的
   */
-void USART1_IRQHandler(void)
+/*void USART1_IRQHandler(void)
 {
     if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET)
     {
@@ -158,98 +168,18 @@ void USART1_IRQHandler(void)
         
         USART_ClearITPendingBit(USART1, USART_IT_RXNE);
     }
-}
+}*/
 
 /**
   * @brief  定时器1中断服务函数 (核心控制循环, 10ms执行一次)
   */
 void TIM1_UP_IRQHandler(void)
 {
-    if (TIM_GetITStatus(TIM1, TIM_IT_Update) == SET)
-    {
-        // --- 读取编码器数据 ---
-        Speed1 = Encoder1_Get();
-        Encoder1_Count += Speed1;
-
-        // --- 任务一：速度环 ---
-        if (Current_Mode == 0) 
-        {
-            Actual_Speed = (float)Speed1;
-            Error_Speed_Now = Target_Speed - Actual_Speed;
-            
-            // 增量式PID
-            PID_Out_Speed += (Kp_speed * (Error_Speed_Now - Error_Speed_Last)) + (Ki_speed * Error_Speed_Now);
-            
-            Error_Speed_Last = Error_Speed_Now;
-            
-            // 限制输出
-            if (PID_Out_Speed > 100) PID_Out_Speed = 100;
-            if (PID_Out_Speed < -100) PID_Out_Speed = -100;
-            
-            // 控制电机1
-            Motor_SetPWM(1, (int8_t)PID_Out_Speed);
-        }
-        else
-        {
-            Motor_SetPWM(1, 0);
-        }
-        
-        TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
-    }
+	if (TIM_GetITStatus(TIM1, TIM_IT_Update) == SET)
+	{
+		directionjudge();
+		TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
+	}
 }
 
-/**
-  * @brief  处理串口命令 (稳定版)
-  */
-void Process_UART_Command_Stable(char* cmd)
-{
-    if (cmd[0] == '@' && cmd[1] == 's' && cmd[2] == 'p' && cmd[3] == 'e' && cmd[4] == 'e' && cmd[5] == 'd'&&cmd[6]=='%')
-    {
-        int speed_percent = 0;
-        uint8_t i = 7;
-        
-        // 手动解析数字
-        while (cmd[i] >= '0' && cmd[i] <= '9')
-        {
-            speed_percent = speed_percent * 10 + (cmd[i] - '0');
-            i++;
-        }
-        
-        // 处理负号
-        if (cmd[7] == '-') {
-            i = 8;
-            while (cmd[i] >= '0' && cmd[i] <= '9')
-            {
-                speed_percent = speed_percent * 10 + (cmd[i] - '0');
-                i++;
-            }
-            speed_percent = -speed_percent;
-        }
-        
-        if (speed_percent > 100) speed_percent = 100;
-        if (speed_percent < -100) speed_percent = -100;
-        
-        Target_Speed = (float)speed_percent * 8.16f;
-    }
-}
 
-/**
-  * @brief  发送数据到VOFA+ (使用JustFloat协议)
-  */
-void Send_Data_To_PC(void)
-{
-    static uint8_t send_counter = 0;
-    send_counter++;
-    if (send_counter >= 5) // 5 * 10ms = 50ms
-    {
-        send_counter = 0;
-        
-        if (Current_Mode == 0) {
-            float vofa_data[3];
-            vofa_data[0] = Actual_Speed;
-            vofa_data[1] = Target_Speed;
-            vofa_data[2] = PID_Out_Speed;
-            VOFA_JustFloat_Send(vofa_data, 3);
-        }
-    }
-}

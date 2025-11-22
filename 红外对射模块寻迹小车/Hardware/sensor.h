@@ -4,7 +4,7 @@
 #include "stm32f10x.h"                  // Device header
 
 void SensorInit(void);
-
+void directionjudge(void);
 
 
 #endif
