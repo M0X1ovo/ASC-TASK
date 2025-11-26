@@ -15,6 +15,7 @@
 
 /*------------------- 全局变量定义 -------------------*/
 volatile uint8_t Current_Mode = 0; // 0: 速度环, 1: 位置环 (添加volatile)
+volatile uint8_t state=0;
 uint8_t KeyNum;
 
 // --- 新的、独立的串口接收系统 ---
@@ -36,6 +37,8 @@ volatile float PID_Out_Speed = 0; // 速度环PID输出 (添加volatile)
 float Kp_speed = 0.5f;
 float Ki_speed = 0.1f;
 float Kd_speed = 0.05f;
+
+
 
 float Error_Speed_Now = 0;
 float Error_Speed_Last = 0;
@@ -105,15 +108,35 @@ int main(void)
 	OLED_Init();
 	OLED_Clear();
 	SensorInit();*/
-	while(1)
-	{
-		int state=Key_GetNum();
+	
+	
+    // 模块初始化
+    OLED_Init();
+    Key_Init();
+    Timer_Init();
+    Motor_Init();
+    SensorInit();
+	sensor_filters_init();
+    
+    OLED_Clear();
+    OLED_ShowString(1, 1, "Track Car Ready");
+    OLED_ShowString(2, 1, "Press Key Start");
+    while(1)
+    {
+		uint8_t statepast=state;
+        state = Key_GetNum();
+		if(statepast!=state)
+		{
+			OLED_Clear();
+		}
 		if(state)
 		{
+			OLED_ShowString(3, 1, "Running...    ");
 			TIM_Cmd(TIM2, ENABLE);
 		}
 		else
 		{
+			OLED_ShowString(3, 1, "Stopped      ");
 			PWM_Stop();
 		}
 		/*OLED_ShowString(1,1,"OLED OK");
@@ -137,8 +160,9 @@ int main(void)
 			OLED_Clear();
 			OLED_ShowString(1,1,"B12 ok low");
 		}
-		Delay_ms(1000);
+		Delay_ms(50);
 	}*/
+		Delay_ms(50);
 	}
 }
 /**
@@ -175,11 +199,13 @@ int main(void)
   */
 void TIM1_UP_IRQHandler(void)
 {
-	if (TIM_GetITStatus(TIM1, TIM_IT_Update) == SET)
-	{
-		directionjudge();
-		TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
-	}
+    if (TIM_GetITStatus(TIM1, TIM_IT_Update) == SET)
+    {
+        // 只有在运行模式下才执行方向判断
+        if (state)  // 这里state是main函数中的局部变量，无法直接访问，需要改为全局变量
+        {
+            directionjudge();
+        }
+        TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
+    }
 }
-
-

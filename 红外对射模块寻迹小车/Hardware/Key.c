@@ -15,10 +15,10 @@ void Key_Init(void)
 uint8_t Key_GetNum(void)
 {
     static uint8_t KeyNum = 0;
-    if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0) == 0)
+    if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4) == 0)
     {
         Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0) == 0);
+        while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4) == 0);
         Delay_ms(20);
 		if(KeyNum)
 		{

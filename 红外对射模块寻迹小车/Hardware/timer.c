@@ -18,8 +18,8 @@ void Timer_Init(void)
     TIM_InitStructure.TIM_CounterMode = TIM_CounterMode_Up;
     TIM_InitStructure.TIM_RepetitionCounter = 0;
     
-    // <--- 修改这里，改为10ms中断 ---
-    TIM_InitStructure.TIM_Prescaler = 7200 - 1; // 7200分频
+    // <--- 修改这里，改为5ms中断 ---
+    TIM_InitStructure.TIM_Prescaler = 720- 1; // 3600分频
     TIM_InitStructure.TIM_Period = 100 - 1;    // 计数值100
     
     TIM_TimeBaseInit(TIM1, &TIM_InitStructure);
