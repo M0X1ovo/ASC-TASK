@@ -20,7 +20,7 @@ void Timer_Init(void)
     
     // <--- 修改这里，改为5ms中断 ---
     TIM_InitStructure.TIM_Prescaler = 720- 1; // 3600分频
-    TIM_InitStructure.TIM_Period = 100 - 1;    // 计数值100
+    TIM_InitStructure.TIM_Period = 50- 1;    // 计数值100
     
     TIM_TimeBaseInit(TIM1, &TIM_InitStructure);
     

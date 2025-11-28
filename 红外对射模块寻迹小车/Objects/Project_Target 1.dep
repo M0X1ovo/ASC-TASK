@@ -1027,7 +1027,7 @@ I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
 I (Hardware\PWM.h)(0x691FDB8A)
 F (.\Hardware\motor.h)(0x691EE8E2)()
-F (.\Hardware\timer.c)(0x69270DD6)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware --no-multibyte-chars-I.\RTE\_Target_1-ID:\stm32\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\stm32\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\timer.o --omf_browse .\objects\timer.crf --depend .\objects\timer.d)
+F (.\Hardware\timer.c)(0x69285E9D)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware --no-multibyte-chars-I.\RTE\_Target_1-ID:\stm32\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\stm32\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\timer.o --omf_browse .\objects\timer.crf --depend .\objects\timer.d)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
 I (.\Start\core_cm3.h)(0x4D523B58)
 I (D:\stm32\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -1087,7 +1087,7 @@ I (.\Library\stm32f10x_usart.h)(0x4D783BB4)
 I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
 F (.\Hardware\PWM.h)(0x691FDB8A)()
-F (.\Hardware\sensor.c)(0x69270DD6)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware --no-multibyte-chars-I.\RTE\_Target_1-ID:\stm32\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\stm32\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\sensor.o --omf_browse .\objects\sensor.crf --depend .\objects\sensor.d)
+F (.\Hardware\sensor.c)(0x69286518)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware --no-multibyte-chars-I.\RTE\_Target_1-ID:\stm32\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\stm32\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\sensor.o --omf_browse .\objects\sensor.crf --depend .\objects\sensor.d)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
 I (.\Start\core_cm3.h)(0x4D523B58)
 I (D:\stm32\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -1117,8 +1117,8 @@ I (.\Library\stm32f10x_usart.h)(0x4D783BB4)
 I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
 I (Hardware\motor.h)(0x691EE8E2)
-I (Hardware\sensor.h)(0x69270346)
-F (.\Hardware\sensor.h)(0x69270346)()
+I (Hardware\sensor.h)(0x692839E2)
+F (.\Hardware\sensor.h)(0x692839E2)()
 F (.\User\main.c)(0x692708FB)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware --no-multibyte-chars-I.\RTE\_Target_1-ID:\stm32\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\stm32\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
 I (.\Start\core_cm3.h)(0x4D523B58)
@@ -1160,7 +1160,7 @@ I (.\System\vofa.h)(0x690EF92C)
 I (D:\stm32\ARM\ARMCC\include\stdlib.h)(0x588B8344)
 I (D:\stm32\ARM\ARMCC\include\string.h)(0x588B8344)
 I (.\Hardware\OLED_Data.h)(0x690EF92C)
-I (.\Hardware\sensor.h)(0x69270346)
+I (.\Hardware\sensor.h)(0x692839E2)
 I (.\Hardware\PWM.h)(0x691FDB8A)
 F (.\User\stm32f10x_conf.h)(0x4D99A59E)()
 F (.\User\stm32f10x_it.c)(0x4D99A59E)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware --no-multibyte-chars-I.\RTE\_Target_1-ID:\stm32\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\stm32\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\stm32f10x_it.o --omf_browse .\objects\stm32f10x_it.crf --depend .\objects\stm32f10x_it.d)

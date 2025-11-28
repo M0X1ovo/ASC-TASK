@@ -20,5 +20,6 @@ void directionjudge(void);
 void filter_init(SensorFilter_t* filter);
 void sensor_filters_init(void);
 uint16_t sensor_median_filter(SensorFilter_t* filter, uint16_t raw_value);
+int limit_pwm(int pwm);
 
 #endif
