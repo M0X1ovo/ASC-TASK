@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Thu Nov 27 22:50:00 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sat Nov 29 20:34:38 2025
 <BR><P>
 <H3>Maximum Stack Usage =         88 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -558,7 +558,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_md.o(.text)
 </UL>
 <P><STRONG><a name="[23]"></a>TIM1_UP_IRQHandler</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, main.o(i.TIM1_UP_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = TIM1_UP_IRQHandler &rArr; directionjudge &rArr; sensor_median_filter
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = TIM1_UP_IRQHandler &rArr; directionjudge &rArr; sensor_median_filter
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;directionjudge
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
@@ -687,8 +687,8 @@ Global Symbols
 
 <P><STRONG><a name="[7f]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
-<P><STRONG><a name="[6e]"></a>directionjudge</STRONG> (Thumb, 1802 bytes, Stack size 8 bytes, sensor.o(i.directionjudge))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = directionjudge &rArr; sensor_median_filter
+<P><STRONG><a name="[6e]"></a>directionjudge</STRONG> (Thumb, 1466 bytes, Stack size 24 bytes, sensor.o(i.directionjudge))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = directionjudge &rArr; sensor_median_filter
 </UL>
 <BR>[Calls]<UL><LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_median_filter

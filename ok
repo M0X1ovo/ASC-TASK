@@ -1,0 +1,65 @@
+[33mcommit d309b5bb147b6afa71263f5fc70c53fad7c664d9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: M0X1 <3424401720@qq.com>
+Date:   Fri Nov 28 16:28:42 2025 +0800
+
+    代码优化了一下
+
+[33mcommit 8bcd7546476adb109ec6703a06267ecf5eb161b6[m
+Author: M0X1 <3424401720@qq.com>
+Date:   Wed Nov 26 22:35:06 2025 +0800
+
+    完成了基本的稳定循迹功能 进入算法优化阶段
+
+[33mcommit fd6b8694bc4509511202caa8852fbffe4480153b[m
+Author: M0X1 <3424401720@qq.com>
+Date:   Sat Nov 22 19:02:45 2025 +0800
+
+    基本代码 无pid 无非阻塞按键实现 只为测试小车能否正常运行及硬件存在的问题
+
+[33mcommit 6386489ef6318525edd7912cb8ef62417cd7eec1[m
+Author: M0X1 <3424401720@qq.com>
+Date:   Thu Nov 20 23:03:16 2025 +0800
+
+    调试红外模块用的
+
+[33mcommit b317b5a7b1116e299b787f9ffe0c44a434845f54[m
+Author: M0X1 <3424401720@qq.com>
+Date:   Mon Nov 17 20:46:13 2025 +0800
+
+    建立小车项目
+
+[33mcommit 81686e39fcaf01d57e3bb916084ec17311682024[m
+Author: M0X1 <3424401720@qq.com>
+Date:   Sun Nov 9 20:14:32 2025 +0800
+
+    最后优化了一下代码逻辑
+
+[33mcommit 6dad4f4f7d867b792b319dffa09bbbce2fede20c[m
+Author: M0X1 <3424401720@qq.com>
+Date:   Sat Nov 8 16:34:04 2025 +0800
+
+    完成了代码整个框架 仍待完善 并非最终版
+
+[33mcommit 460daa8c833100584ef9a984e3919f2c98be0d90[m
+Author: M0X1 <3424401720@qq.com>
+Date:   Thu Nov 6 12:27:54 2025 +0800
+
+    增量式pid以及USART串口
+
+[33mcommit 85616e63c54ad7fe5a66e0c5f126aefc1147d3dd[m
+Author: M0X1 <3424401720@qq.com>
+Date:   Thu Nov 6 10:02:16 2025 +0800
+
+    电机驱动补充了速度输出到上位机的函数 以及按键初始化“
+
+[33mcommit 22fc5b8aecba40c6aef9568e5ff2a2f51e6a67cc[m
+Author: M0X1 <3424401720@qq.com>
+Date:   Tue Nov 4 21:01:02 2025 +0800
+
+    电机驱动这一块
+
+[33mcommit 46e90958de269b162f1177a689e818f9fb47f746[m
+Author: M0X1 <3424401720@qq.com>
+Date:   Tue Nov 4 17:23:06 2025 +0800
+
+    忽略文件

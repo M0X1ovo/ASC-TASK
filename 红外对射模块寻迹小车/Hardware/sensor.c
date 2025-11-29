@@ -97,110 +97,129 @@ void directionjudge()
     static uint16_t right2[3] = {0,0,0};
 	
 	static uint8_t proportion=0;
+	
+	    // === 新增：数据存储降频 ===
+    static uint8_t data_store_counter = 0;
+    data_store_counter++;
 
 	
-	left1[index] = sensor_median_filter(&sensor_left1, !GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_12));
-    left2[index] = sensor_median_filter(&sensor_left2, !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13));
-    right1[index] = sensor_median_filter(&sensor_right1, !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_14));
-    right2[index] = sensor_median_filter(&sensor_right2, !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_15));
+    // 每次中断都读取当前传感器数据（保证实时性）
+    uint16_t current_left1 = sensor_median_filter(&sensor_left1, !GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_12));
+    uint16_t current_left2 = sensor_median_filter(&sensor_left2, !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13));
+    uint16_t current_right1 = sensor_median_filter(&sensor_right1, !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_14));
+    uint16_t current_right2 = sensor_median_filter(&sensor_right2, !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_15));
 	
-	if(left1[index]==left1[lastindex]&&left2[index]==left2[lastindex]&&right1[index]==right1[lastindex]&&right2[index]==right2[lastindex]&&left1[index]==left1[llastindex]&&left2[index]==left2[llastindex]&&right1[index]==right1[llastindex]&&right2[index]==right2[llastindex])
-	{
-		if(proportion<5)
+	
+    // === 关键：每5次中断存储一次数据 ===
+    if(data_store_counter >= 160) 
 		{
-			proportion+=2;
-		}
-		
+			data_store_counter = 0;
+			
+			// 存储数据到历史数组
+			left1[index] = current_left1;
+			left2[index] = current_left2;
+			right1[index] = current_right1;
+			right2[index] = current_right2;
+			
+			if(left1[index]==left1[lastindex]&&left2[index]==left2[lastindex]&&right1[index]==right1[lastindex]&&right2[index]==right2[lastindex]&&left1[index]==left1[llastindex]&&left2[index]==left2[llastindex]&&right1[index]==right1[llastindex]&&right2[index]==right2[llastindex])
+			{
+				if(proportion<5)
+				{
+					proportion+=2;
+				}
+				
 
-	}
-	else if(left1[index]==left1[lastindex]&&left2[index]==left2[lastindex]&&right1[index]==right1[lastindex]&&right2[index]==right2[lastindex])
-	{
-		if(proportion<4)
-		{
-			proportion+=1;
+			}
+			else if(left1[index]==left1[lastindex]&&left2[index]==left2[lastindex]&&right1[index]==right1[lastindex]&&right2[index]==right2[lastindex])
+			{
+				if(proportion<4)
+				{
+					proportion+=1;
+				}
+				
+			}
+			else
+			{
+				proportion=0;
+			}
+			// 更新索引
+			llastindex=lastindex;
+			lastindex=index;
+			index = (index + 1) % 3;		
 		}
-		
-	}
-	else
-	{
-		proportion=0;
-	}
-	
 
-	if(left2[index] ==1&&right1[index]==1&&left1[index]==0&&right2[index]==0)
+	if(current_left2==1&&current_right1==1&&current_left1==0&&current_right2==0)
 	{
-		Motor_SetPWM(1,62+proportion*3);     //直行
-		Motor_SetPWM(2,62+proportion*3);
-		Motor_SetPWM(3,62+proportion*3);
-		Motor_SetPWM(4,62+proportion*3);
+		Motor_SetPWM(1,68+proportion*6);     //直行
+		Motor_SetPWM(2,68+proportion*6);
+		Motor_SetPWM(3,68+proportion*6);
+		Motor_SetPWM(4,68+proportion*6);
 	}
-	else if(left2[index]==1&&right1[index]==1&&left1[index]==1&&right2[index]==1)  //十字
+	else if(current_left2==1&&current_right1==1&&current_left1==1&&current_right2==1)  //十字
 	{
-		Motor_SetPWM(1,62+proportion*3);
-		Motor_SetPWM(2,62+proportion*3);
-		Motor_SetPWM(3,62+proportion*3);
-		Motor_SetPWM(4,62+proportion*3);
+		Motor_SetPWM(1,68+proportion*6);
+		Motor_SetPWM(2,68+proportion*6);
+		Motor_SetPWM(3,68+proportion*6);
+		Motor_SetPWM(4,68+proportion*6);
 	}
-	else if(left2[index]==1&&right1[index]==1&&left1[index]==1&&right2[index]==0)   //左直角弯
+	else if(current_left2==1&&current_right1==1&&current_left1==1&&current_right2==0)   //左直角弯
 	{
-		Motor_SetPWM(leftfront,12-proportion*2);
-		Motor_SetPWM(leftback,12-proportion*2);
-		Motor_SetPWM(rightfront,97-proportion*2);
-		Motor_SetPWM(rightback,97-proportion*2);
+		Motor_SetPWM(leftfront,6-proportion*1);
+		Motor_SetPWM(leftback,6-proportion*1);
+		Motor_SetPWM(rightfront,100-proportion*2);
+		Motor_SetPWM(rightback,100-proportion*2);
 	} 
-	else if(left2[index]==1&&right1[index]==1&&left1[index]==0&&right2[index]==1)     //右直角弯  
+	else if(current_left2==1&&current_right1==1&&current_left1==0&&current_right2==1)     //右直角弯  
 	{
-		Motor_SetPWM(leftfront,97-proportion*2);
-		Motor_SetPWM(leftback,97-proportion*2);
-		Motor_SetPWM(rightfront,12-proportion*2);
-		Motor_SetPWM(rightback,12-proportion*2);
+		Motor_SetPWM(leftfront,100-proportion*2);
+		Motor_SetPWM(leftback,100-proportion*2);
+		Motor_SetPWM(rightfront,6-proportion*1);
+		Motor_SetPWM(rightback,6-proportion*1);
 	}
-	else if(left2[index]==1&&right1[index]==0&&left1[index]==0&&right2[index]==0)    //直线修正
+	else if(current_left2==1&&current_right1==0&&current_left1==0&&current_right2==0)    //直线修正
 	{
-		Motor_SetPWM(leftfront,72+proportion*2);
-		Motor_SetPWM(leftback,72+proportion*2);
-		Motor_SetPWM(rightfront,68-proportion*2);
-		Motor_SetPWM(rightback,68-proportion*2);
+		Motor_SetPWM(leftfront,80-proportion*2);
+		Motor_SetPWM(leftback,80-proportion*2);
+		Motor_SetPWM(rightfront,55+proportion*2);
+		Motor_SetPWM(rightback,55+proportion*2);
 	}
-	else if(left2[index]==0&&right1[index]==1&&left1[index]==0&&right2[index]==0)   //直线修正
+	else if(current_left2==0&&current_right1==1&&current_left1==0&&current_right2==0)   //直线修正
 	{
-		Motor_SetPWM(leftfront,72+proportion*2);
-		Motor_SetPWM(leftback,72+proportion*2);
-		Motor_SetPWM(rightfront,68-proportion*2);
-		Motor_SetPWM(rightback,68-proportion*2);
+		Motor_SetPWM(leftfront,80-proportion*2);
+		Motor_SetPWM(leftback,80-proportion*2);
+		Motor_SetPWM(rightfront,55+proportion*2);
+		Motor_SetPWM(rightback,55+proportion*2);
 	}
-	else if(left2[index]==0&&right1[index]==0&&left1[index]==1&&right2[index]==0)    //极左修正    
+	else if(current_left2==0&&current_right1==0&&current_left1==1&&current_right2==0)    //极左修正    
 	{
 		Motor_SetPWM(leftfront,12-proportion*2);
 		Motor_SetPWM(leftback,12-proportion*2);
-		Motor_SetPWM(rightfront,97-proportion*2);
-		Motor_SetPWM(rightback,97-proportion*2);		
+		Motor_SetPWM(rightfront,100-proportion*2);
+		Motor_SetPWM(rightback,100-proportion*2);		
 	}
-	else if(left2[index]==0&&right1[index]==0&&left1[index]==0&&right2[index]==1)    //极右
+	else if(current_left2==0&&current_right1==0&&current_left1==0&&current_right2==1)    //极右
 	{
-		Motor_SetPWM(leftfront,97-proportion*2);
-		Motor_SetPWM(leftback,97-proportion*2);
+		Motor_SetPWM(leftfront,100-proportion*2);
+		Motor_SetPWM(leftback,100-proportion*2);
 		Motor_SetPWM(rightfront,12-proportion*2);
 		Motor_SetPWM(rightback,12-proportion*2);		
 	}
-	else if(left2[index]==0&&right1[index]==1&&left1[index]==0&&right2[index]==1)    //右边俩黑
+	else if(current_left2==0&&current_right1==1&&current_left1==0&&current_right2==1)    //右边俩黑
 	{
-		Motor_SetPWM(leftfront,30);
-		Motor_SetPWM(leftback,30);
-		Motor_SetPWM(rightfront,89-proportion*2);
-		Motor_SetPWM(rightback,89-proportion*2);		
+		Motor_SetPWM(leftfront,18);
+		Motor_SetPWM(leftback,18);
+		Motor_SetPWM(rightfront,90-proportion*2);
+		Motor_SetPWM(rightback,90-proportion*2);		
 	}
-	else if(left2[index]==1&&right1[index]==0&&left1[index]==1&&right2[index]==0)  //左边俩黑
+	else if(current_left2==1&&current_right1==0&&current_left1==1&&current_right2==0)  //左边俩黑
 	{
-		Motor_SetPWM(leftfront,89-proportion*2);
-		Motor_SetPWM(leftback,89-proportion*2);
-		Motor_SetPWM(rightfront,30);
-		Motor_SetPWM(rightback,30);		
+		Motor_SetPWM(leftfront,90-proportion*2);
+		Motor_SetPWM(leftback,90-proportion*2);
+		Motor_SetPWM(rightfront,18);
+		Motor_SetPWM(rightback,18);		
 	}
-	llastindex=lastindex;
-	lastindex=index;
-	index = (index + 1) % 3;  // 使用取模确保循环
+
+
 
 }
-
 
